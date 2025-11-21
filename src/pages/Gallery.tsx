@@ -2,10 +2,13 @@ import { useEffect, useState } from 'react';
 import { strapiClient, StrapiProjectPhoto } from '../lib/strapi';
 import { Image as ImageIcon, Calendar } from 'lucide-react';
 
+type GalleryCategory = 'estado-inicial' | 'avance-obra' | 'fotos-finales';
+
 export default function Gallery() {
   const [photos, setPhotos] = useState<StrapiProjectPhoto[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPhoto, setSelectedPhoto] = useState<StrapiProjectPhoto | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<GalleryCategory>('estado-inicial');
 
   useEffect(() => {
     loadPhotos();
@@ -26,6 +29,8 @@ export default function Gallery() {
         // Flatten galleries to individual photos
         type GalleryItem = {
           id: number;
+          title?: string;
+          category?: string;
           photos?: Array<{
             id: number;
             url: string;
@@ -44,6 +49,7 @@ export default function Gallery() {
               allPhotos.push({
                 ...photo,
                 galleryId: gallery.id,
+                galleryCategory: gallery.category || 'estado-inicial',
                 galleryCreatedAt: gallery.createdAt,
                 client: gallery.client,
               } as unknown as StrapiProjectPhoto);
@@ -67,6 +73,17 @@ export default function Gallery() {
     );
   }
 
+  const categories = [
+    { id: 'estado-inicial' as const, label: 'Estado inicial' },
+    { id: 'avance-obra' as const, label: 'Avance Obra' },
+    { id: 'fotos-finales' as const, label: 'Fotos Finales' },
+  ];
+
+  const filteredPhotos = photos.filter((photo) => {
+    const photoData = photo as unknown as { galleryCategory?: string };
+    return photoData.galleryCategory === selectedCategory;
+  });
+
   return (
     <>
       <div className="space-y-6">
@@ -80,19 +97,38 @@ export default function Gallery() {
           </p>
         </div>
 
-        {photos.length === 0 ? (
+        {/* Category Tabs */}
+        <div className="bg-white rounded-xl shadow-md p-2">
+          <div className="flex space-x-2">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setSelectedCategory(category.id)}
+                className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all ${
+                  selectedCategory === category.id
+                    ? 'bg-[#004040] text-white shadow-md'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {category.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {filteredPhotos.length === 0 ? (
           <div className="bg-white rounded-xl shadow-md p-12 text-center">
             <ImageIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-[#000] mb-2">
-              No hay fotos disponibles
+              No hay fotos disponibles en esta categoría
             </h3>
             <p className="text-gray-600">
-              Cuando la inmobiliaria suba fotos del progreso, aparecerán aquí
+              Cuando grupogersan suba fotos de {categories.find(c => c.id === selectedCategory)?.label.toLowerCase()}, aparecerán aquí
             </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {photos.map((photo) => {
+            {filteredPhotos.map((photo) => {
               // Get image URL from photo object
               const photoData = photo as unknown as { url?: string; name?: string; caption?: string; createdAt: string; id: number };
               const imageUrl = photoData.url;

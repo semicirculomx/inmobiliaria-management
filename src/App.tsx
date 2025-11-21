@@ -3,12 +3,14 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './components/Login';
 import Layout from './components/Layout';
 import Home from './pages/Home';
-import Budgets from './pages/Budgets';
+import Valoraciones from './pages/Valoraciones';
 import Contracts from './pages/Contracts';
 import Plans from './pages/Plans';
+import Certificaciones from './pages/Certificaciones';
+import Facturas from './pages/Facturas';
 import Gallery from './pages/Gallery';
 
-type Page = 'home' | 'budgets' | 'contracts' | 'plans' | 'gallery';
+type Page = 'home' | 'valoraciones' | 'planes' | 'contratos' | 'certificaciones' | 'facturas' | 'gallery';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -29,9 +31,11 @@ function AppContent() {
   return (
     <Layout currentPage={currentPage} onNavigate={setCurrentPage}>
       {currentPage === 'home' && <Home onNavigate={setCurrentPage} />}
-      {currentPage === 'budgets' && <Budgets />}
-      {currentPage === 'contracts' && <Contracts />}
-      {currentPage === 'plans' && <Plans />}
+      {currentPage === 'valoraciones' && <Valoraciones />}
+      {currentPage === 'contratos' && <Contracts />}
+      {currentPage === 'planes' && <Plans />}
+      {currentPage === 'certificaciones' && <Certificaciones />}
+      {currentPage === 'facturas' && <Facturas />}
       {currentPage === 'gallery' && <Gallery />}
     </Layout>
   );

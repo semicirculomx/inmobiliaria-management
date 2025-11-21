@@ -1,8 +1,8 @@
 import { useAuth } from '../contexts/AuthContext';
-import { FileText, FileSignature, Building2, Image } from 'lucide-react';
+import { FileText, FileSignature, Building2, Image, Award, Receipt } from 'lucide-react';
 
 type HomeProps = {
-  onNavigate: (page: 'budgets' | 'contracts' | 'plans' | 'gallery') => void;
+  onNavigate: (page: 'valoraciones' | 'planes' | 'contratos' | 'certificaciones' | 'facturas' | 'gallery') => void;
 };
 
 export default function Home({ onNavigate }: HomeProps) {
@@ -10,29 +10,43 @@ export default function Home({ onNavigate }: HomeProps) {
 
   const sections = [
     {
-      id: 'budgets' as const,
-      title: 'Presupuestos',
-      description: 'Consulta tus presupuestos y descárgalos en PDF',
+      id: 'valoraciones' as const,
+      title: 'Valoraciones',
+      description: 'Consulta tus valoraciones y descárgalas en PDF',
       icon: FileText,
       color: 'from-[#004040] to-[#006060]',
     },
     {
-      id: 'contracts' as const,
-      title: 'Contratos',
-      description: 'Accede a tus contratos y documentos legales',
-      icon: FileSignature,
+      id: 'planes' as const,
+      title: 'Planos y proyectos',
+      description: 'Visualiza y descarga los planos de tu proyecto',
+      icon: Building2,
       color: 'from-[#c08510] to-[#d09520]',
     },
     {
-      id: 'plans' as const,
-      title: 'Planos',
-      description: 'Visualiza y descarga los planos de tu proyecto',
-      icon: Building2,
+      id: 'contratos' as const,
+      title: 'Contrato y anexos',
+      description: 'Accede a tus contratos y documentos legales',
+      icon: FileSignature,
+      color: 'from-[#004040] to-[#006060]',
+    },
+    {
+      id: 'certificaciones' as const,
+      title: 'Certificaciones',
+      description: 'Consulta todas las certificaciones del proyecto',
+      icon: Award,
+      color: 'from-[#c08510] to-[#d09520]',
+    },
+    {
+      id: 'facturas' as const,
+      title: 'Facturas',
+      description: 'Accede y descarga tus facturas',
+      icon: Receipt,
       color: 'from-[#004040] to-[#006060]',
     },
     {
       id: 'gallery' as const,
-      title: 'Galería Proyecto',
+      title: 'Galería proyecto',
       description: 'Sigue el progreso de tu proyecto con fotos actualizadas',
       icon: Image,
       color: 'from-[#c08510] to-[#d09520]',
