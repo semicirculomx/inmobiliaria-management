@@ -17,7 +17,7 @@ export default function Plans() {
     try {
       const response = await strapiClient.get('proyectos', {
         params: {
-          'filters[client][$eq]': user.id,
+          'filters[clients][$eq]': user.id,
           'populate': 'pdf',
           'sort[0]': 'createdAt:desc',
         },

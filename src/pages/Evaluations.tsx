@@ -17,7 +17,7 @@ export default function Valoraciones() {
     try {
       const response = await strapiClient.get('valoracions', {
         params: {
-          'filters[client][$eq]': user.id,
+          'filters[clients][$eq]': user.id,
           'populate': 'pdf',
           'sort[0]': 'createdAt:desc',
         },

@@ -13,15 +13,13 @@ export default function Certificaciones() {
 
     const loadCertificaciones = async () => {
       try {
-        const response = await strapiClient.get('certificacions', {
-          params: {
-            'filters[client][$eq]': user.id,
-            'populate': 'pdf',
-            'sort[0]': 'createdAt:desc',
-          },
-        });
-
-        console.log('Certificaciones response:', response);
+      const response = await strapiClient.get('certificacions', {
+        params: {
+          'filters[clients][$eq]': user.id,
+          'populate': 'pdf',
+          'sort[0]': 'createdAt:desc',
+        },
+      });        console.log('Certificaciones response:', response);
 
         if (response.data) {
           setCertificaciones(response.data);

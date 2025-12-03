@@ -17,7 +17,7 @@ export default function Contracts() {
     try {
       const response = await strapiClient.get('contratos', {
         params: {
-          'filters[client][$eq]': user.id,
+          'filters[clients][$eq]': user.id,
           'populate': 'pdf',
           'sort[0]': 'createdAt:desc',
         },

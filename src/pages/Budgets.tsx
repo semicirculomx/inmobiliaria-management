@@ -17,7 +17,7 @@ export default function Budgets() {
         // This automatically filters by the authenticated user
         const response = await strapiClient.get('presupuestos', {
           params: {
-            'filters[client][$eq]': user.id,
+            'filters[clients][$eq]': user.id,
             'populate': 'pdf',
             'sort[0]': 'createdAt:desc',
           },

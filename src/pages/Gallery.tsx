@@ -19,7 +19,7 @@ export default function Gallery() {
       try {
         const response = await strapiClient.get('galerias', {
           params: {
-            'filters[client][$eq]': user.id,
+            'filters[clients][$eq]': user.id,
             'populate': '*',
             'sort[0]': 'createdAt:desc',
           },
