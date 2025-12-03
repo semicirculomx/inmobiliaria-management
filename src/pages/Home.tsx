@@ -1,8 +1,8 @@
 import { useAuth } from '../contexts/AuthContext';
-import { FileText, FileSignature, Building2, Image, Award, Receipt } from 'lucide-react';
+import { FileText, FileSignature, Building2, Image, Award, Receipt, Table } from 'lucide-react';
 
 type HomeProps = {
-  onNavigate: (page: 'valoraciones' | 'planes' | 'contratos' | 'certificaciones' | 'facturas' | 'gallery') => void;
+  onNavigate: (page: 'valoraciones' | 'planes' | 'contratos' | 'certificaciones' | 'facturas' | 'presupuestos' | 'gallery') => void;
 };
 
 export default function Home({ onNavigate }: HomeProps) {
@@ -43,6 +43,13 @@ export default function Home({ onNavigate }: HomeProps) {
       description: 'Accede y descarga tus facturas',
       icon: Receipt,
       color: 'from-[#004040] to-[#006060]',
+    },
+    {
+      id: 'presupuestos' as const,
+      title: 'Presupuestos',
+      description: 'Consulta y descarga tus presupuestos',
+      icon: Table,
+      color: 'from-[#c08510] to-[#d09520]',
     },
     {
       id: 'gallery' as const,

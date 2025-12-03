@@ -8,9 +8,10 @@ import Contracts from './pages/Contracts';
 import Plans from './pages/Proyects';
 import Certificaciones from './pages/Certifications';
 import Facturas from './pages/Invoices';
+import Budgets from './pages/Budgets';
 import Gallery from './pages/Gallery';
 
-type Page = 'home' | 'valoraciones' | 'planes' | 'contratos' | 'certificaciones' | 'facturas' | 'gallery';
+type Page = 'home' | 'valoraciones' | 'planes' | 'contratos' | 'certificaciones' | 'facturas' | 'presupuestos' | 'gallery';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -36,6 +37,7 @@ function AppContent() {
       {currentPage === 'planes' && <Plans />}
       {currentPage === 'certificaciones' && <Certificaciones />}
       {currentPage === 'facturas' && <Facturas />}
+      {currentPage === 'presupuestos' && <Budgets />}
       {currentPage === 'gallery' && <Gallery />}
     </Layout>
   );
