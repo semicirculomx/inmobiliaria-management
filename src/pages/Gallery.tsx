@@ -91,25 +91,25 @@ export default function Gallery() {
 
   return (
     <>
-      <div className="space-y-6">
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+      <div className="space-y-4 sm:space-y-6">
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-6 sm:p-8">
           <div className="flex items-center space-x-3 mb-2">
-            <ImageIcon className="w-8 h-8 text-[#004040]" />
-            <h1 className="text-3xl font-bold text-[#000]">Galería del Proyecto</h1>
+            <ImageIcon className="w-6 h-6 sm:w-8 sm:h-8 text-[#004040]" />
+            <h1 className="text-2xl sm:text-3xl font-bold text-[#000]">Galería del Proyecto</h1>
           </div>
-          <p className="text-gray-600">
+          <p className="text-sm sm:text-base text-gray-600">
             Sigue el progreso de tu proyecto con las fotos más recientes
           </p>
         </div>
 
         {/* Category Tabs */}
         <div className="bg-white rounded-xl shadow-md p-2">
-          <div className="flex space-x-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all ${
+                className={`flex-1 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base ${
                   selectedCategory === category.id
                     ? 'bg-[#004040] text-white shadow-md'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -132,7 +132,7 @@ export default function Gallery() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {filteredPhotos.map((photo) => {
               // Get image URL from photo object
               const photoData = photo as unknown as { url?: string; name?: string; caption?: string; createdAt: string; id: number };
@@ -193,13 +193,13 @@ export default function Gallery() {
         
         return (
           <div
-            className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-2 sm:p-4"
             onClick={() => setSelectedPhoto(null)}
           >
             <div className="relative max-w-6xl w-full">
               <button
                 onClick={() => setSelectedPhoto(null)}
-                className="absolute -top-12 right-0 text-white hover:text-gray-300 text-4xl font-light"
+                className="absolute -top-10 sm:-top-12 right-0 text-white hover:text-gray-300 text-3xl sm:text-4xl font-light"
               >
                 ×
               </button>
@@ -207,15 +207,15 @@ export default function Gallery() {
                 <img
                   src={fullImageUrl}
                   alt={photoData.name || 'Foto del proyecto'}
-                  className="w-full h-auto max-h-[85vh] object-contain rounded-lg"
+                  className="w-full h-auto max-h-[80vh] sm:max-h-[85vh] object-contain rounded-lg"
                   onClick={(e) => e.stopPropagation()}
                 />
               )}
               {photoData.caption && (
-                <div className="mt-4 bg-white rounded-lg p-4">
-                  <p className="text-[#000] font-medium">{photoData.caption}</p>
-                  <div className="flex items-center text-sm text-gray-500 mt-2">
-                    <Calendar className="w-4 h-4 mr-1" />
+                <div className="mt-2 sm:mt-4 bg-white rounded-lg p-3 sm:p-4">
+                  <p className="text-[#000] font-medium text-sm sm:text-base">{photoData.caption}</p>
+                  <div className="flex items-center text-xs sm:text-sm text-gray-500 mt-2">
+                    <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
                     {new Date(photoData.createdAt).toLocaleDateString('es-ES', {
                       year: 'numeric',
                       month: 'long',

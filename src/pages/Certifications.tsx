@@ -69,13 +69,13 @@ export default function Certificaciones() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="bg-white rounded-2xl shadow-xl p-8">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-6 sm:p-8">
         <div className="flex items-center space-x-3 mb-2">
-          <Award className="w-8 h-8 text-[#004040]" />
-          <h1 className="text-3xl font-bold text-[#000]">Certificaciones</h1>
+          <Award className="w-6 h-6 sm:w-8 sm:h-8 text-[#004040]" />
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#000]">Certificaciones</h1>
         </div>
-        <p className="text-gray-600">
+        <p className="text-sm sm:text-base text-gray-600">
           Todas tus certificaciones disponibles para consulta y descarga
         </p>
       </div>
@@ -95,32 +95,34 @@ export default function Certificaciones() {
           {certificaciones.map((certificacion) => (
             <div
               key={certificacion.id}
-              className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-6"
+              className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-4 sm:p-6"
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-start space-x-4 flex-1">
-                  <div className="bg-[#004040]/10 p-3 rounded-lg">
-                    <Award className="w-6 h-6 text-[#004040]" />
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="flex items-start space-x-3 sm:space-x-4 flex-1">
+                  <div className="bg-[#004040]/10 p-2 sm:p-3 rounded-lg flex-shrink-0">
+                    <Award className="w-5 h-5 sm:w-6 sm:h-6 text-[#004040]" />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-[#000] mb-2">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg sm:text-xl font-semibold text-[#000] mb-1 sm:mb-2 break-words">
                       {certificacion.title}
                     </h3>
-                    <div className="flex items-center text-sm text-gray-500">
-                      <Calendar className="w-4 h-4 mr-1" />
-                      {new Date(certificacion.createdAt).toLocaleDateString('es-ES', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
+                    <div className="flex items-center text-xs sm:text-sm text-gray-500">
+                      <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1 flex-shrink-0" />
+                      <span className="truncate">
+                        {new Date(certificacion.createdAt).toLocaleDateString('es-ES', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                      </span>
                     </div>
                   </div>
                 </div>
                 <button
                   onClick={() => handleDownload(certificacion)}
-                  className="flex items-center space-x-2 bg-[#c08510] text-white px-6 py-3 rounded-lg hover:bg-[#a06d0d] transition-colors font-semibold"
+                  className="flex items-center justify-center space-x-2 bg-[#c08510] text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg hover:bg-[#a06d0d] transition-colors font-semibold text-sm sm:text-base w-full sm:w-auto"
                 >
-                  <Download className="w-5 h-5" />
+                  <Download className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>Descargar PDF</span>
                 </button>
               </div>

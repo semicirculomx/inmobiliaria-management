@@ -92,26 +92,26 @@ export default function SignatureModal({ isOpen, onClose, onSave, contractTitle 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full">
-        <div className="p-6 border-b border-gray-200">
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4">
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xl max-w-2xl w-full max-h-[95vh] overflow-y-auto">
+        <div className="p-4 sm:p-6 border-b border-gray-200">
           <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold text-[#000]">Firmar Contrato</h2>
-              <p className="text-gray-600 mt-1">{contractTitle}</p>
+            <div className="flex-1 min-w-0 mr-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-[#000]">Firmar Contrato</h2>
+              <p className="text-sm sm:text-base text-gray-600 mt-1 truncate">{contractTitle}</p>
             </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 transition-colors"
+              className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
           </div>
         </div>
 
-        <div className="p-6">
-          <div className="mb-4">
-            <p className="text-sm text-gray-600 mb-2">
+        <div className="p-4 sm:p-6">
+          <div className="mb-3 sm:mb-4">
+            <p className="text-xs sm:text-sm text-gray-600 mb-2">
               Por favor, firme en el recuadro de abajo usando su dedo o mouse
             </p>
           </div>
@@ -132,32 +132,32 @@ export default function SignatureModal({ isOpen, onClose, onSave, contractTitle 
             />
           </div>
 
-          <div className="flex items-center justify-between mt-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 mt-4 sm:mt-6">
             <button
               onClick={clearSignature}
-              className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:text-gray-900 transition-colors"
+              className="flex items-center justify-center sm:justify-start space-x-2 px-4 py-2 text-gray-700 hover:text-gray-900 transition-colors order-2 sm:order-1"
             >
-              <RotateCcw className="w-5 h-5" />
-              <span>Limpiar</span>
+              <RotateCcw className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-sm sm:text-base">Limpiar</span>
             </button>
 
-            <div className="flex space-x-3">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 order-1 sm:order-2">
               <button
                 onClick={onClose}
-                className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors font-semibold"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors font-semibold text-sm sm:text-base"
               >
                 Cancelar
               </button>
               <button
                 onClick={saveSignature}
                 disabled={!hasSignature}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition-colors ${
+                className={`flex items-center justify-center space-x-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold transition-colors text-sm sm:text-base ${
                   hasSignature
                     ? 'bg-[#c08510] text-white hover:bg-[#a06d0d]'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
-                <Check className="w-5 h-5" />
+                <Check className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span>Firmar Contrato</span>
               </button>
             </div>

@@ -61,33 +61,33 @@ export default function Home({ onNavigate }: HomeProps) {
   ];
 
   return (
-    <div className="space-y-8">
-      <div className="bg-white rounded-2xl shadow-xl p-8">
-        <h1 className="text-4xl font-bold text-[#000] mb-2">
+    <div className="space-y-6 sm:space-y-8">
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-6 sm:p-8">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#000] mb-2">
           Bienvenido, {client?.full_name}
         </h1>
-        <p className="text-lg text-gray-600">
+        <p className="text-base sm:text-lg text-gray-600">
           Accede a toda la documentación y el progreso de tu proyecto desde aquí
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         {sections.map((section) => {
           const Icon = section.icon;
           return (
             <button
               key={section.id}
               onClick={() => onNavigate(section.id)}
-              className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all p-8 text-left transform hover:-translate-y-1 duration-300"
+              className="group bg-white rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all p-6 sm:p-8 text-left transform hover:-translate-y-1 duration-300"
             >
-              <div className={`bg-gradient-to-br ${section.color} w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                <Icon className="w-8 h-8 text-white" />
+              <div className={`bg-gradient-to-br ${section.color} w-12 h-12 sm:w-16 sm:h-16 rounded-lg sm:rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform`}>
+                <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
-              <h2 className="text-2xl font-bold text-[#000] mb-2">{section.title}</h2>
-              <p className="text-gray-600">{section.description}</p>
-              <div className="mt-4 flex items-center text-[#004040] font-semibold group-hover:translate-x-2 transition-transform">
-                Acceder
-                <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <h2 className="text-xl sm:text-2xl font-bold text-[#000] mb-2">{section.title}</h2>
+              <p className="text-sm sm:text-base text-gray-600">{section.description}</p>
+              <div className="mt-3 sm:mt-4 flex items-center text-[#004040] font-semibold group-hover:translate-x-2 transition-transform">
+                <span className="text-sm sm:text-base">Acceder</span>
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </div>
