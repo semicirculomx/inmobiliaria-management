@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 import { strapiClient, StrapiContract } from '../lib/strapi';
 import { useAuth } from '../contexts/AuthContext';
-import { FileSignature, Download, Calendar } from 'lucide-react';
+import { FileSignature, Download, Calendar, PenTool } from 'lucide-react';
+import SignatureModal from '../components/SignatureModal';
+import { addSignatureToPdf, uploadToStrapi, updateContractPdf } from '../lib/pdfSignature';
 
 export default function Contracts() {
   const [contracts, setContracts] = useState<StrapiContract[]>([]);
   const [loading, setLoading] = useState(true);
+  const [signing, setSigning] = useState(false);
+  const [selectedContract, setSelectedContract] = useState<StrapiContract | null>(null);
+  const [showSignatureModal, setShowSignatureModal] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -63,16 +68,85 @@ export default function Contracts() {
     }
   };
 
-  if (loading) {
+  const handleSignClick = (contract: StrapiContract) => {
+    setSelectedContract(contract);
+    setShowSignatureModal(true);
+  };
+
+  const handleSignatureSave = async (signatureDataUrl: string) => {
+    if (!selectedContract || !user) return;
+
+    setSigning(true);
+    setShowSignatureModal(false);
+
+    try {
+      // Get PDF URL
+      const pdfUrl = selectedContract.pdf?.url || selectedContract.pdf_url;
+      if (!pdfUrl) {
+        throw new Error('No hay PDF disponible');
+      }
+
+      const fullPdfUrl = pdfUrl.startsWith('http')
+        ? pdfUrl
+        : `https://dashboard.grupogersan360.com${pdfUrl}`;
+
+      // Step 1: Add signature to PDF
+      const signedPdfBase64 = await addSignatureToPdf(fullPdfUrl, signatureDataUrl);
+
+      // Step 2: Upload signed PDF to Strapi
+      const token = strapiClient.getToken();
+      if (!token) {
+        throw new Error('No hay token de autenticación');
+      }
+
+      const fileName = `${selectedContract.title}_firmado_${Date.now()}.pdf`;
+      const uploadedFile = await uploadToStrapi(signedPdfBase64, fileName, token);
+
+      // Step 3: Update contract with new PDF
+      await updateContractPdf(selectedContract.id, uploadedFile.id, token);
+
+      // Step 4: Reload contracts
+      const response = await strapiClient.get('contratos', {
+        params: {
+          'filters[clients][$eq]': user.id,
+          'populate': 'pdf',
+          'sort[0]': 'createdAt:desc',
+        },
+      });
+
+      if (response.data) {
+        setContracts(response.data);
+      }
+
+      alert('¡Contrato firmado exitosamente!');
+    } catch (error) {
+      console.error('Error signing contract:', error);
+      alert('Error al firmar el contrato. Por favor intente de nuevo.');
+    } finally {
+      setSigning(false);
+      setSelectedContract(null);
+    }
+  };
+
+  if (loading || signing) {
     return (
       <div className="flex justify-center items-center h-64">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#004040]"></div>
+        {signing && <p className="ml-4 text-gray-600">Procesando firma...</p>}
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <>
+      <SignatureModal
+        isOpen={showSignatureModal}
+        onClose={() => setShowSignatureModal(false)}
+        onSave={handleSignatureSave}
+        contractTitle={selectedContract?.title || ''}
+      />
+
+      <div className="space-y-6">
       <div className="bg-white rounded-2xl shadow-xl p-8">
         <div className="flex items-center space-x-3 mb-2">
           <FileSignature className="w-8 h-8 text-[#004040]" />
@@ -119,18 +193,28 @@ export default function Contracts() {
                     </div>
                   </div>
                 </div>
-                <button
-                  onClick={() => handleDownload(contract)}
-                  className="flex items-center space-x-2 bg-[#c08510] text-white px-6 py-3 rounded-lg hover:bg-[#a06d0d] transition-colors font-semibold"
-                >
-                  <Download className="w-5 h-5" />
-                  <span>Descargar PDF</span>
-                </button>
+                <div className="flex space-x-3">
+                  <button
+                    onClick={() => handleSignClick(contract)}
+                    className="flex items-center space-x-2 bg-[#004040] text-white px-6 py-3 rounded-lg hover:bg-[#006060] transition-colors font-semibold"
+                  >
+                    <PenTool className="w-5 h-5" />
+                    <span>Firmar</span>
+                  </button>
+                  <button
+                    onClick={() => handleDownload(contract)}
+                    className="flex items-center space-x-2 bg-[#c08510] text-white px-6 py-3 rounded-lg hover:bg-[#a06d0d] transition-colors font-semibold"
+                  >
+                    <Download className="w-5 h-5" />
+                    <span>Descargar PDF</span>
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }
