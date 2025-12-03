@@ -42,7 +42,6 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
                 )}
               </button>
               <img src={logo} alt="Grupo Gersan" className="h-8 sm:h-10 w-auto" />
-              <span className="text-lg sm:text-xl font-bold text-[#000]">grupogersan</span>
             </div>
 
             <div className="flex items-center space-x-2 sm:space-x-4">
