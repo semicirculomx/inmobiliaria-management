@@ -3,11 +3,11 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './components/Login';
 import Layout from './components/Layout';
 import Home from './pages/Home';
-import Valoraciones from './pages/Valoraciones';
+import Valoraciones from './pages/Evaluations';
 import Contracts from './pages/Contracts';
-import Plans from './pages/Plans';
-import Certificaciones from './pages/Certificaciones';
-import Facturas from './pages/Facturas';
+import Plans from './pages/Proyects';
+import Certificaciones from './pages/Certifications';
+import Facturas from './pages/Invoices';
 import Gallery from './pages/Gallery';
 
 type Page = 'home' | 'valoraciones' | 'planes' | 'contratos' | 'certificaciones' | 'facturas' | 'gallery';

@@ -1,5 +1,5 @@
 // Strapi API Client Configuration
-const STRAPI_BASE_URL = 'https://samus.mikelpr.com/api';
+const STRAPI_BASE_URL = 'https://dashboard.grupogersan360.com/api';
 
 // Strapi User type
 export type StrapiUser = {

@@ -13,7 +13,7 @@ export default function Budgets() {
   const loadBudgets = async () => {
     try {
       // Fetch budgets from Strapi API with populated client relation
-      const response = await strapiClient.get('budgets', {
+      const response = await strapiClient.get('presupuestos', {
         params: {
           'populate[0]': 'client',
           'populate[1]': 'pdf',
@@ -46,7 +46,7 @@ export default function Budgets() {
       // If URL is relative, prepend Strapi base URL
       const fullUrl = pdfUrl.startsWith('http') 
         ? pdfUrl 
-        : `https://samus.mikelpr.com${pdfUrl}`;
+        : `https://dashboard.grupogersan360.com${pdfUrl}`;
 
       // Open in new tab or trigger download
       const a = document.createElement('a');

@@ -12,7 +12,7 @@ export default function Contracts() {
 
   const loadContracts = async () => {
     try {
-      const response = await strapiClient.get('contracts', {
+      const response = await strapiClient.get('contratos', {
         params: {
           'populate[0]': 'client',
           'populate[1]': 'pdf',
@@ -43,7 +43,7 @@ export default function Contracts() {
 
       const fullUrl = pdfUrl.startsWith('http') 
         ? pdfUrl 
-        : `https://samus.mikelpr.com${pdfUrl}`;
+        : `https://dashboard.grupogersan360.com${pdfUrl}`;
 
       const a = document.createElement('a');
       a.href = fullUrl;

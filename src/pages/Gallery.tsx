@@ -16,7 +16,7 @@ export default function Gallery() {
 
   const loadPhotos = async () => {
     try {
-      const response = await strapiClient.get('galleries', {
+      const response = await strapiClient.get('galerias', {
         params: {
           'populate': '*',
           'sort[0]': 'createdAt:desc',
@@ -135,7 +135,7 @@ export default function Gallery() {
               const fullImageUrl = imageUrl?.startsWith('http') 
                 ? imageUrl 
                 : imageUrl 
-                  ? `https://samus.mikelpr.com${imageUrl}`
+                  ? `https://dashboard.grupogersan360.com${imageUrl}`
                   : '';
               
               return (
@@ -183,7 +183,7 @@ export default function Gallery() {
         const fullImageUrl = imageUrl?.startsWith('http')
           ? imageUrl
           : imageUrl
-            ? `https://samus.mikelpr.com${imageUrl}`
+            ? `https://dashboard.grupogersan360.com${imageUrl}`
             : '';
         
         return (

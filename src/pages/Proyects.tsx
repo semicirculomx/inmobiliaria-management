@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
-import { strapiClient, StrapiContract } from '../lib/strapi';
-import { Award, Download, Calendar } from 'lucide-react';
+import { strapiClient, StrapiPlan } from '../lib/strapi';
+import { Building2, Download, Calendar } from 'lucide-react';
 
-export default function Certificaciones() {
-  const [certificaciones, setCertificaciones] = useState<StrapiContract[]>([]);
+export default function Plans() {
+  const [plans, setPlans] = useState<StrapiPlan[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadCertificaciones();
+    loadPlans();
   }, []);
 
-  const loadCertificaciones = async () => {
+  const loadPlans = async () => {
     try {
-      const response = await strapiClient.get('contracts', {
+      const response = await strapiClient.get('proyectos', {
         params: {
           'populate[0]': 'client',
           'populate[1]': 'pdf',
@@ -20,21 +20,21 @@ export default function Certificaciones() {
         },
       });
 
-      console.log('Certificaciones response:', response);
+      console.log('Plans response:', response);
 
       if (response.data) {
-        setCertificaciones(response.data);
+        setPlans(response.data);
       }
     } catch (error) {
-      console.error('Error loading certificaciones:', error);
+      console.error('Error loading plans:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDownload = async (certificacion: StrapiContract) => {
+  const handleDownload = async (plan: StrapiPlan) => {
     try {
-      const pdfUrl = certificacion.pdf?.url || certificacion.pdf_url;
+      const pdfUrl = plan.pdf?.url || plan.pdf_url;
       
       if (!pdfUrl) {
         alert('No hay PDF disponible para descargar');
@@ -43,17 +43,17 @@ export default function Certificaciones() {
 
       const fullUrl = pdfUrl.startsWith('http') 
         ? pdfUrl 
-        : `https://samus.mikelpr.com${pdfUrl}`;
+        : `https://dashboard.grupogersan360.com${pdfUrl}`;
 
       const a = document.createElement('a');
       a.href = fullUrl;
-      a.download = `${certificacion.title}.pdf`;
+      a.download = `${plan.title}.pdf`;
       a.target = '_blank';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
     } catch (error) {
-      console.error('Error downloading certificacion:', error);
+      console.error('Error downloading plan:', error);
       alert('Error al descargar el archivo');
     }
   };
@@ -70,43 +70,43 @@ export default function Certificaciones() {
     <div className="space-y-6">
       <div className="bg-white rounded-2xl shadow-xl p-8">
         <div className="flex items-center space-x-3 mb-2">
-          <Award className="w-8 h-8 text-[#004040]" />
-          <h1 className="text-3xl font-bold text-[#000]">Certificaciones</h1>
+          <Building2 className="w-8 h-8 text-[#004040]" />
+          <h1 className="text-3xl font-bold text-[#000]">Planos</h1>
         </div>
         <p className="text-gray-600">
-          Todas tus certificaciones disponibles para consulta y descarga
+          Todos tus planos disponibles para consulta y descarga
         </p>
       </div>
 
-      {certificaciones.length === 0 ? (
+      {plans.length === 0 ? (
         <div className="bg-white rounded-xl shadow-md p-12 text-center">
-          <Award className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-[#000] mb-2">
-            No hay certificaciones disponibles
+          <Building2 className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            No hay planos disponibles
           </h3>
           <p className="text-gray-600">
-            Cuando grupogersan suba certificaciones, aparecerán aquí
+            Cuando la inmobiliaria suba planos, aparecerán aquí
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4">
-          {certificaciones.map((certificacion) => (
+          {plans.map((plan) => (
             <div
-              key={certificacion.id}
+              key={plan.id}
               className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-6"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-start space-x-4 flex-1">
                   <div className="bg-[#004040]/10 p-3 rounded-lg">
-                    <Award className="w-6 h-6 text-[#004040]" />
+                    <Building2 className="w-6 h-6 text-[#004040]" />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-xl font-semibold text-[#000] mb-2">
-                      {certificacion.title}
+                      {plan.title}
                     </h3>
                     <div className="flex items-center text-sm text-gray-500">
                       <Calendar className="w-4 h-4 mr-1" />
-                      {new Date(certificacion.createdAt).toLocaleDateString('es-ES', {
+                      {new Date(plan.createdAt).toLocaleDateString('es-ES', {
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric',
@@ -115,7 +115,7 @@ export default function Certificaciones() {
                   </div>
                 </div>
                 <button
-                  onClick={() => handleDownload(certificacion)}
+                  onClick={() => handleDownload(plan)}
                   className="flex items-center space-x-2 bg-[#c08510] text-white px-6 py-3 rounded-lg hover:bg-[#a06d0d] transition-colors font-semibold"
                 >
                   <Download className="w-5 h-5" />
