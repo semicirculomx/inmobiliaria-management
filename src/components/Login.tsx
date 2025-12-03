@@ -28,10 +28,6 @@ export default function Login() {
         <div className="flex justify-center mb-6">
           <img src={logo} alt="Grupo Gersan" className="h-20 w-auto" />
         </div>
-
-        <h1 className="text-3xl font-bold text-center text-[#000] mb-2">
-          grupogersan
-        </h1>
         <p className="text-center text-gray-600 mb-8">
           Portal de Clientes
         </p>
