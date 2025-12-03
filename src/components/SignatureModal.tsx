@@ -18,9 +18,8 @@ export default function SignatureModal({ isOpen, onClose, onSave, contractTitle 
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
       if (ctx) {
-        // Set canvas background to white
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Clear canvas with transparency
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         
         // Configure drawing style
         ctx.strokeStyle = '#000';
@@ -77,8 +76,8 @@ export default function SignatureModal({ isOpen, onClose, onSave, contractTitle 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Clear with transparency
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     setHasSignature(false);
   };
 
@@ -117,7 +116,7 @@ export default function SignatureModal({ isOpen, onClose, onSave, contractTitle 
             </p>
           </div>
 
-          <div className="border-2 border-gray-300 rounded-lg overflow-hidden bg-white">
+          <div className="border-2 border-gray-300 rounded-lg overflow-hidden" style={{ background: 'repeating-conic-gradient(#f3f4f6 0% 25%, white 0% 50%) 50% / 20px 20px' }}>
             <canvas
               ref={canvasRef}
               width={700}
