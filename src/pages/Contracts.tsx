@@ -194,13 +194,23 @@ export default function Contracts() {
                   </div>
                 </div>
                 <div className="flex space-x-3">
-                  <button
-                    onClick={() => handleSignClick(contract)}
-                    className="flex items-center space-x-2 bg-[#004040] text-white px-6 py-3 rounded-lg hover:bg-[#006060] transition-colors font-semibold"
-                  >
-                    <PenTool className="w-5 h-5" />
-                    <span>Firmar</span>
-                  </button>
+                  {!contract.signed && (
+                    <button
+                      onClick={() => handleSignClick(contract)}
+                      className="flex items-center space-x-2 bg-[#004040] text-white px-6 py-3 rounded-lg hover:bg-[#006060] transition-colors font-semibold"
+                    >
+                      <PenTool className="w-5 h-5" />
+                      <span>Firmar</span>
+                    </button>
+                  )}
+                  {contract.signed && (
+                    <div className="flex items-center space-x-2 px-6 py-3 bg-green-50 text-green-700 rounded-lg border border-green-200">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span className="font-semibold">Firmado</span>
+                    </div>
+                  )}
                   <button
                     onClick={() => handleDownload(contract)}
                     className="flex items-center space-x-2 bg-[#c08510] text-white px-6 py-3 rounded-lg hover:bg-[#a06d0d] transition-colors font-semibold"

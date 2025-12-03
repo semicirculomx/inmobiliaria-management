@@ -160,6 +160,8 @@ export type StrapiContract = {
     size: number;
     mime: string;
   };
+  signed?: boolean;
+  signedAt?: string;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;

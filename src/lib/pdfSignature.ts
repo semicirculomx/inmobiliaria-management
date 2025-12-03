@@ -157,6 +157,8 @@ export async function updateContractPdf(
         body: JSON.stringify({
           data: {
             pdf: pdfId,
+            signed: true,
+            signedAt: new Date().toISOString(),
           },
         }),
       }
