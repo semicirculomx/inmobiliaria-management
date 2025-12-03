@@ -136,18 +136,18 @@ export async function uploadToStrapi(
 
 /**
  * Updates a contract with the new signed PDF
- * @param contractId - ID of the contract to update
+ * @param contractDocumentId - Document ID of the contract to update (Strapi v5)
  * @param pdfId - ID of the uploaded PDF in Strapi
  * @param token - JWT authentication token
  */
 export async function updateContractPdf(
-  contractId: number,
+  contractDocumentId: string,
   pdfId: number,
   token: string
 ): Promise<void> {
   try {
     const response = await fetch(
-      `https://dashboard.grupogersan360.com/api/contratos/${contractId}`,
+      `https://dashboard.grupogersan360.com/api/contratos/${contractDocumentId}`,
       {
         method: 'PUT',
         headers: {
@@ -157,8 +157,6 @@ export async function updateContractPdf(
         body: JSON.stringify({
           data: {
             pdf: pdfId,
-            signed: true,
-            signedAt: new Date().toISOString(),
           },
         }),
       }

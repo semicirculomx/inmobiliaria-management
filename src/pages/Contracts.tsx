@@ -102,8 +102,8 @@ export default function Contracts() {
       const fileName = `${selectedContract.title}_firmado_${Date.now()}.pdf`;
       const uploadedFile = await uploadToStrapi(signedPdfBase64, fileName, token);
 
-      // Step 3: Update contract with new PDF
-      await updateContractPdf(selectedContract.id, uploadedFile.id, token);
+      // Step 3: Update contract with new PDF (using documentId for Strapi v5)
+      await updateContractPdf(selectedContract.documentId, uploadedFile.id, token);
 
       // Step 4: Reload contracts
       const response = await strapiClient.get('contratos', {
