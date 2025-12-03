@@ -1,26 +1,29 @@
 import { useEffect, useState } from 'react';
 import { strapiClient, StrapiPlan } from '../lib/strapi';
+import { useAuth } from '../contexts/AuthContext';
 import { Building2, Download, Calendar } from 'lucide-react';
 
 export default function Plans() {
   const [plans, setPlans] = useState<StrapiPlan[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
-    loadPlans();
-  }, []);
+    if (!user) return;
 
   const loadPlans = async () => {
+    if (!user) return;
+
     try {
       const response = await strapiClient.get('proyectos', {
         params: {
-          'populate[0]': 'client',
-          'populate[1]': 'pdf',
+          'filters[client][$eq]': user.id,
+          'populate': 'pdf',
           'sort[0]': 'createdAt:desc',
         },
       });
 
-      console.log('Plans response:', response);
+      console.log('Proyects response:', response);
 
       if (response.data) {
         setPlans(response.data);
@@ -31,6 +34,8 @@ export default function Plans() {
       setLoading(false);
     }
   };
+      loadPlans();
+    }, [user]);
 
   const handleDownload = async (plan: StrapiPlan) => {
     try {

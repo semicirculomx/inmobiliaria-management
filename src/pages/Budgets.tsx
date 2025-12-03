@@ -1,37 +1,42 @@
 import { useEffect, useState } from 'react';
 import { strapiClient, StrapiBudget } from '../lib/strapi';
+import { useAuth } from '../contexts/AuthContext';
 import { FileText, Download, Calendar } from 'lucide-react';
 
 export default function Budgets() {
   const [budgets, setBudgets] = useState<StrapiBudget[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
-    loadBudgets();
-  }, []);
+    if (!user) return;
 
-  const loadBudgets = async () => {
-    try {
-      // Fetch budgets from Strapi API with populated client relation
-      const response = await strapiClient.get('presupuestos', {
-        params: {
-          'populate[0]': 'client',
-          'populate[1]': 'pdf',
-          'sort[0]': 'createdAt:desc',
-        },
-      });
+    const loadBudgets = async () => {
+      try {
+        // Use Strapi's built-in 'me' filter for users-permissions User relations
+        // This automatically filters by the authenticated user
+        const response = await strapiClient.get('presupuestos', {
+          params: {
+            'filters[client][$eq]': user.id,
+            'populate': 'pdf',
+            'sort[0]': 'createdAt:desc',
+          },
+        });
 
-      console.log('Budgets response:', response);
+        console.log('Budgets response:', response);
 
-      if (response.data) {
-        setBudgets(response.data);
+        if (response.data) {
+          setBudgets(response.data);
+        }
+      } catch (error) {
+        console.error('Error loading budgets:', error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Error loading budgets:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+
+    loadBudgets();
+  }, [user]);
 
   const handleDownload = async (budget: StrapiBudget) => {
     try {

@@ -1,36 +1,40 @@
 import { useEffect, useState } from 'react';
 import { strapiClient, StrapiContract } from '../lib/strapi';
+import { useAuth } from '../contexts/AuthContext';
 import { Award, Download, Calendar } from 'lucide-react';
 
 export default function Certificaciones() {
   const [certificaciones, setCertificaciones] = useState<StrapiContract[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
-    loadCertificaciones();
-  }, []);
+    if (!user) return;
 
-  const loadCertificaciones = async () => {
-    try {
-      const response = await strapiClient.get('certificacions', {
-        params: {
-          'populate[0]': 'client',
-          'populate[1]': 'pdf',
-          'sort[0]': 'createdAt:desc',
-        },
-      });
+    const loadCertificaciones = async () => {
+      try {
+        const response = await strapiClient.get('certificacions', {
+          params: {
+            'filters[client][$eq]': user.id,
+            'populate': 'pdf',
+            'sort[0]': 'createdAt:desc',
+          },
+        });
 
-      console.log('Certificaciones response:', response);
+        console.log('Certificaciones response:', response);
 
-      if (response.data) {
-        setCertificaciones(response.data);
+        if (response.data) {
+          setCertificaciones(response.data);
+        }
+      } catch (error) {
+        console.error('Error loading certificaciones:', error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Error loading certificaciones:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+
+    loadCertificaciones();
+  }, [user]);
 
   const handleDownload = async (certificacion: StrapiContract) => {
     try {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { strapiClient, StrapiProjectPhoto } from '../lib/strapi';
+import { useAuth } from '../contexts/AuthContext';
 import { Image as ImageIcon, Calendar } from 'lucide-react';
 
 type GalleryCategory = 'estado-inicial' | 'avance-obra' | 'fotos-finales';
@@ -9,19 +10,20 @@ export default function Gallery() {
   const [loading, setLoading] = useState(true);
   const [selectedPhoto, setSelectedPhoto] = useState<StrapiProjectPhoto | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<GalleryCategory>('estado-inicial');
+  const { user } = useAuth();
 
   useEffect(() => {
-    loadPhotos();
-  }, []);
+    if (!user) return;
 
-  const loadPhotos = async () => {
-    try {
-      const response = await strapiClient.get('galerias', {
-        params: {
-          'populate': '*',
-          'sort[0]': 'createdAt:desc',
-        },
-      });
+    const loadPhotos = async () => {
+      try {
+        const response = await strapiClient.get('galerias', {
+          params: {
+            'filters[client][$eq]': user.id,
+            'populate': '*',
+            'sort[0]': 'createdAt:desc',
+          },
+        });
 
       console.log('Photos response:', response);
 
@@ -64,6 +66,9 @@ export default function Gallery() {
       setLoading(false);
     }
   };
+
+  loadPhotos();
+}, [user]);
 
   if (loading) {
     return (

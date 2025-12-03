@@ -1,21 +1,24 @@
 import { useEffect, useState } from 'react';
 import { strapiClient, StrapiBudget } from '../lib/strapi';
+import { useAuth } from '../contexts/AuthContext';
 import { FileText, Download, Calendar } from 'lucide-react';
 
 export default function Valoraciones() {
   const [valoraciones, setValoraciones] = useState<StrapiBudget[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
-    loadValoraciones();
-  }, []);
+    if (!user) return;
 
   const loadValoraciones = async () => {
+    if (!user) return;
+
     try {
       const response = await strapiClient.get('valoracions', {
         params: {
-          'populate[0]': 'client',
-          'populate[1]': 'pdf',
+          'filters[client][$eq]': user.id,
+          'populate': 'pdf',
           'sort[0]': 'createdAt:desc',
         },
       });
@@ -31,7 +34,8 @@ export default function Valoraciones() {
       setLoading(false);
     }
   };
-
+      loadValoraciones();
+  }, [user]);
   const handleDownload = async (valoracion: StrapiBudget) => {
     try {
       const pdfUrl = valoracion.pdf?.url || valoracion.pdf_url;

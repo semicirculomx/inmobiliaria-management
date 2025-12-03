@@ -1,38 +1,40 @@
 import { useEffect, useState } from 'react';
 import { strapiClient, StrapiBudget } from '../lib/strapi';
+import { useAuth } from '../contexts/AuthContext';
 import { FileText, Download, Calendar } from 'lucide-react';
 
 export default function Valoraciones() {
   const [valoraciones, setValoraciones] = useState<StrapiBudget[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
-    loadValoraciones();
-  }, []);
+    if (!user) return;
 
-  const loadValoraciones = async () => {
-    try {
-      const response = await strapiClient.get('facturas', {
-        params: {
-          'populate[0]': 'client',
-          'populate[1]': 'pdf',
-          'sort[0]': 'createdAt:desc',
-        },
-      });
+    const loadValoraciones = async () => {
+      try {
+        const response = await strapiClient.get('facturas', {
+          params: {
+            'filters[client][$eq]': user.id,
+            'populate': 'pdf',
+            'sort[0]': 'createdAt:desc',
+          },
+        });
 
-      console.log('Valoraciones response:', response);
+        console.log('Facturas response:', response);
 
-      if (response.data) {
-        setValoraciones(response.data);
+        if (response.data) {
+          setValoraciones(response.data);
+        }
+      } catch (error) {
+        console.error('Error loading facturas:', error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Error loading valoraciones:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
 
-  const handleDownload = async (valoracion: StrapiBudget) => {
+    loadValoraciones();
+  }, [user]);  const handleDownload = async (valoracion: StrapiBudget) => {
     try {
       const pdfUrl = valoracion.pdf?.url || valoracion.pdf_url;
       

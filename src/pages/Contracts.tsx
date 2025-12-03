@@ -1,21 +1,24 @@
 import { useEffect, useState } from 'react';
 import { strapiClient, StrapiContract } from '../lib/strapi';
+import { useAuth } from '../contexts/AuthContext';
 import { FileSignature, Download, Calendar } from 'lucide-react';
 
 export default function Contracts() {
   const [contracts, setContracts] = useState<StrapiContract[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
-    loadContracts();
-  }, []);
+    if (!user) return;
 
   const loadContracts = async () => {
+    if (!user) return;
+
     try {
       const response = await strapiClient.get('contratos', {
         params: {
-          'populate[0]': 'client',
-          'populate[1]': 'pdf',
+          'filters[client][$eq]': user.id,
+          'populate': 'pdf',
           'sort[0]': 'createdAt:desc',
         },
       });
@@ -31,6 +34,8 @@ export default function Contracts() {
       setLoading(false);
     }
   };
+      loadContracts();
+ }, [user]);
 
   const handleDownload = async (contract: StrapiContract) => {
     try {
