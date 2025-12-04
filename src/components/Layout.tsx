@@ -105,7 +105,9 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
                     <span>965 453 369</span>
                   </a>
                   <a 
-                    href="tel:+34683438079"
+                    href="https://wa.me/34683438079"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center space-x-2 text-sm text-gray-700 hover:text-[#004040] transition-colors"
                   >
                     <Phone className="w-4 h-4" />
@@ -183,7 +185,9 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
                         <span>965 453 369</span>
                       </a>
                       <a 
-                        href="tel:+34683438079"
+                        href="https://wa.me/34683438079"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="flex items-center space-x-2 text-sm text-gray-700 hover:text-[#004040] transition-colors"
                       >
                         <Phone className="w-4 h-4" />
