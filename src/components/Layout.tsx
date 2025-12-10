@@ -1,12 +1,12 @@
 import { ReactNode, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { LogOut, Home, FileText, FileSignature, Building2, Image, Award, Receipt, Mail, Phone, Globe, Table, Menu, X } from 'lucide-react';
+import { LogOut, Home, FileText, FileSignature, Building2, Image, Award, Receipt, Mail, Phone, Globe, Menu, X } from 'lucide-react';
 import logo from '../assets/images/Group-122.png';
 
 type LayoutProps = {
   children: ReactNode;
-  currentPage: 'home' | 'valoraciones' | 'planes' | 'contratos' | 'certificaciones' | 'facturas' | 'presupuestos' | 'gallery';
-  onNavigate: (page: 'home' | 'valoraciones' | 'planes' | 'contratos' | 'certificaciones' | 'facturas' | 'presupuestos' | 'gallery') => void;
+  currentPage: 'home' | 'valoraciones' | 'planes' | 'contratos' | 'certificaciones' | 'facturas' | 'gallery';
+  onNavigate: (page: 'home' | 'valoraciones' | 'planes' | 'contratos' | 'certificaciones' | 'facturas' | 'gallery') => void;
 };
 
 export default function Layout({ children, currentPage, onNavigate }: LayoutProps) {
@@ -20,7 +20,6 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
     { id: 'contratos' as const, label: 'Contrato y anexos', icon: FileSignature },
     { id: 'certificaciones' as const, label: 'Certificaciones', icon: Award },
     { id: 'facturas' as const, label: 'Facturas', icon: Receipt },
-    { id: 'presupuestos' as const, label: 'Presupuestos', icon: Table },
     { id: 'gallery' as const, label: 'Galería proyecto', icon: Image },
   ];
 
