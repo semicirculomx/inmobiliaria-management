@@ -10,8 +10,9 @@ import Certificaciones from './pages/Certifications';
 import Facturas from './pages/Invoices';
 import Budgets from './pages/Budgets';
 import Gallery from './pages/Gallery';
+import ProgressWorks from './pages/ProgressWorks';
 
-type Page = 'home' | 'valoraciones' | 'planes' | 'contratos' | 'certificaciones' | 'facturas' | 'presupuestos' | 'gallery';
+type Page = 'home' | 'valoraciones' | 'planes' | 'contratos' | 'certificaciones' | 'facturas' | 'presupuestos' | 'gallery' | 'estado-obras';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -39,6 +40,7 @@ function AppContent() {
       {currentPage === 'facturas' && <Facturas />}
       {currentPage === 'presupuestos' && <Budgets />}
       {currentPage === 'gallery' && <Gallery />}
+      {currentPage === 'estado-obras' && <ProgressWorks />}
     </Layout>
   );
 }
