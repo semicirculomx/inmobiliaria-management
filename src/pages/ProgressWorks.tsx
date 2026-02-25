@@ -23,7 +23,7 @@ export default function ProgressWorks() {
 
     const loadObras = async () => {
       try {
-        const response = await strapiClient.get('obra-progresos', {
+        const response = await strapiClient.get('progresos', {
           params: {
             'filters[clients][$eq]': user.id,
             'sort[0]': 'createdAt:desc',
