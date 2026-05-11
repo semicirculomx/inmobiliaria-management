@@ -73,7 +73,7 @@ export default function Valoraciones() {
       <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-6 sm:p-8">
         <div className="flex items-center space-x-3 mb-2">
           <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-[#004040]" />
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#000]">Valoraciones</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#000]">Facturas</h1>
         </div>
         <p className="text-sm sm:text-base text-gray-600">
           Todas tus valoraciones disponibles para consulta y descarga

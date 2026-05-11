@@ -45,13 +45,6 @@ export default function Home({ onNavigate }: HomeProps) {
       color: 'from-[#004040] to-[#006060]',
     },
     {
-      id: 'presupuestos' as const,
-      title: 'Presupuestos',
-      description: 'Consulta y descarga tus presupuestos',
-      icon: Table,
-      color: 'from-[#c08510] to-[#d09520]',
-    },
-    {
       id: 'gallery' as const,
       title: 'Galería proyecto',
       description: 'Sigue el progreso de tu proyecto con fotos actualizadas',
